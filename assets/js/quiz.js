@@ -5,7 +5,7 @@ let introP = document.getElementById("introP");
 let questionEl = document.getElementById("quiz-start");
 
 let askQuestionEl = document.createElement("h2");
-let answerOptionsEl = document.createElement("ol");
+let answerOptionsEl = document.createElement("div");
 let quizFooter = document.createElement("div");
 
 let timeLeft = 75;
@@ -25,8 +25,8 @@ let questions = [
     correct: "parentheses"
   },
   {
-    question: "Which of the following is not a common data type in JavaScript?",
-    answer: ["boolean", "string", "number", "text"],
+    question: "Which of the following shows proper heading use?",
+    answer: ["h1, h2, h3, h4, h5, h6", "h1, h3, h5, h2, h6, h4", "h6, h5, h4, h3, h2, h1", "It doesn't matter how you use headings on your page."],
     correct: "text"
   },
   {
@@ -77,8 +77,6 @@ let clearStart = function(){
 let nextQuestion = function(){
   let newQEl = document.getElementById("question");
   newQEl.innerHTML = questions[questionCounter].question;
-  let newList = document.getElementById("answers");
-  newList.innerHTML = '';
   for (let i=0;i<4;i++){
     let newAEl = document.getElementById("answer");
     newAEl.value = questions[questionCounter].answer[i];
