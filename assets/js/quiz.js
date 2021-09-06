@@ -3,7 +3,14 @@ let startBtnEl = document.getElementById("start");
 let introEl = document.getElementById("intro");
 let introP = document.getElementById("introP");
 let questionEl = document.getElementById("quiz-start");
+
+let askQuestionEl = document.createElement("h2");
+let answerOptionsEl = document.createElement("ol");
+let quizFooter = document.createElement("div");
+
 let timeLeft = 75;
+let questionCounter = 0;
+let pointTotal = 0;
 
 let questions = [
   {
@@ -16,19 +23,38 @@ let questions = [
     question: "What is required to call a function?",
     answer: ["a button", "parentheses", "a parameter", "an argument"],
     correct: "parentheses"
-  }
+  },
+  {
+    question: "Which of the following is not a common data type in JavaScript?",
+    answer: ["boolean", "string", "number", "text"],
+    correct: "text"
+  },
+  {
+    question: "Which of the following is not a common data type in JavaScript?",
+    answer: ["boolean", "string", "number", "text"],
+    correct: "text"
+  },
+  {
+    question: "Which of the following is not a common data type in JavaScript?",
+    answer: ["boolean", "string", "number", "text"],
+    correct: "text"
+  },
+  {
+    question: "Which of the following is not a common data type in JavaScript?",
+    answer: ["boolean", "string", "number", "text"],
+    correct: "text"
+  },
 ]
 
 function countDown(){
-
+console.log(questions.answer);
   let timerInterval = setInterval(function(){
     if (timeLeft > 0) {
       timerEl.textContent = "Timer: " + timeLeft;
       timeLeft--;
       
     }
-    else {
-      timerEl.textContent = '';
+    else if (timerEl.textContent = '' || questionCounter >= questions.length) {
       clearInterval(timerInterval);
       endQuiz();
     }
@@ -38,52 +64,67 @@ function countDown(){
 let startQuiz = function(){
   countDown();
   clearStart();
-  // Ask first question
+  // Ask first question & display possible answers
   askQuestion();
-  // Display possible answers
-  displayAnswers();
 };
 
 let clearStart = function(){
   questionEl.removeChild(startBtnEl);
   questionEl.removeChild(introEl);
   questionEl.removeChild(introP);
-}
+};
+
+let nextQuestion = function(){
+  let newQEl = document.getElementById("question");
+  newQEl.innerHTML = questions[questionCounter].question;
+  let newList = document.getElementById("answers");
+  newList.innerHTML = '';
+  for (let i=0;i<4;i++){
+    let newAEl = document.getElementById("answer");
+    newAEl.value = questions[questionCounter].answer[i];
+  }
+};
+  
+
 
 let askQuestion = function(){
   questionEl.className = "quizText";
-  let askQuestionEl = document.createElement("h2");
+  askQuestionEl.id = "question";
   askQuestionEl.className = "questionText";
-  askQuestionEl.textContent = questions[0].question;
+  askQuestionEl.textContent = questions[questionCounter].question;
   questionEl.appendChild(askQuestionEl);
+  displayAnswers();
+  
 };
 
 let displayAnswers = function(){
-  let pointTotal = 0;
-  let answerOptionsEl = document.createElement("ol");
   answerOptionsEl.className = "answers";
   questionEl.appendChild(answerOptionsEl);
-  let quizFooter = document.createElement("div");
   quizFooter.className = "statusBar";
   for (let i=0;i<4;i++){
     let answerOptionEl = document.createElement("input");
     answerOptionEl.type = "button";
-    answerOptionEl.id = "submit";
-    answerOptionEl.value = questions[0].answer[i];
+    answerOptionEl.id = "answer";
+    answerOptionEl.value = questions[questionCounter].answer[i];
     answerOptionEl.className = "inputBtn";
+    answerOptionsEl.appendChild(answerOptionEl);
     answerOptionEl.addEventListener("click", function(){
-      if (answerOptionEl.value === questions[0].correct){
+      if (answerOptionEl.value === questions[questionCounter].correct){
         pointTotal +=5;
+        console.log(pointTotal);
         quizFooter.textContent = "Correct!";
-        questionEl.appendChild(quizFooter);
+        questionEl.appendChild(quizFooter); 
       }
       else {
         timeLeft -= 10;
         quizFooter.textContent = "Wrong!";
         questionEl.appendChild(quizFooter);
       }
-    })
-    answerOptionsEl.appendChild(answerOptionEl);
+      
+      questionCounter++;
+      console.log(questionCounter);
+      nextQuestion();
+    });
   } 
 };
 
